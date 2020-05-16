@@ -16,10 +16,11 @@ app.use(express.static(CLIENT_BUILD_PATH));
 
 const clients = {};
 const messages = {};
-const connectionsLimit = 10000;
+const CONNECTIONS_LIMIT = 10000;
+const ROOM_MESSAGE_LIMIT = 100;
 
 io.on("connection", function (client) {
-  if (io.engine.clientsCount > connectionsLimit) {
+  if (io.engine.clientsCount > CONNECTIONS_LIMIT) {
     client.emit("err", { message: "reach the limit of connections" });
     client.disconnect();
     return;
@@ -52,6 +53,11 @@ io.on("connection", function (client) {
     if (!(e.to in messages)) {
       messages[e.to] = [];
     }
+
+    if (messages > ROOM_MESSAGE_LIMIT) {
+      messages.shift();
+    }
+
     messages[e.to].push(e.message);
     io.to(e.to).emit("message", e);
   });
@@ -69,14 +75,14 @@ io.on("connection", function (client) {
   });
 });
 
-app.get("/users", (req, res) => {
-  res.send({ data: clients });
-});
+// app.get("/users", (req, res) => {
+//   res.send({ data: clients });
+// });
 
-app.get("*", function (req, res) {
-  res.sendFile(path.join(CLIENT_BUILD_PATH, "index.html"));
-});
-
-server.listen(PORT, () =>
-  console.log(`Example app listening on port ${PORT}!`)
+server.listen(
+  {
+    port: PORT,
+    host: HOST,
+  },
+  () => console.log(`Example app listening on port ${PORT}!`)
 );

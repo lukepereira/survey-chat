@@ -1,7 +1,11 @@
 
 # Setup and build the client
 
-FROM node:9.4.0-alpine as client
+FROM node:12.10.0-alpine as client
+
+RUN apk update && \
+    apk add --update git && \
+    apk add --update openssh
 
 WORKDIR /usr/app/client/
 COPY client/package*.json ./
@@ -12,7 +16,7 @@ RUN npm run build
 
 # Setup the server
 
-FROM node:9.4.0-alpine
+FROM node:12.10.0-alpine
 
 WORKDIR /usr/app/
 COPY --from=client /usr/app/client/build/ ./client/build/

@@ -3,6 +3,9 @@
   font-size: 17px;
   margin-top: 13px;
 }
+.navbar-brand {
+  cursor: pointer;
+}
 .chat-list {
   height: 74vh;
   background-color: white;

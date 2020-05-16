@@ -13,7 +13,6 @@ import LoadingModal from "./components/LoadingModal";
 import "react-chat-elements/dist/main.css";
 import "./index.css";
 import io from "socket.io-client";
-import { fetchUsers } from "./requests";
 import {
   NotificationContainer,
   NotificationManager,
@@ -45,7 +44,6 @@ class App extends Component {
   componentDidMount() {
     this.initAxios();
     this.initSocketConnection();
-    fetchUsers().then((users) => this.setState({ users }));
     this.setupSocketListeners();
   }
 
