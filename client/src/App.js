@@ -22,7 +22,7 @@ import "react-notifications/lib/notifications.css";
 import axios from "axios";
 import hash from "object-hash";
 
-const SOCKET_URI = process.env.REACT_APP_SERVER_URI || "http://localhost:8002";
+const SOCKET_URI = "http://localhost:8080";
 
 class App extends Component {
   socket = null;

@@ -1,5 +1,5 @@
 {
-  "name": "surveyjs_react_quickstart_new",
+  "name": "survey-chat-ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,6 +26,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://server:8080",
   "browserslist": {
     "production": [
       ">0.2%",

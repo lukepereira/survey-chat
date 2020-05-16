@@ -1,11 +1,18 @@
+"use strict";
+
 const express = require("express");
 const app = express();
-const port = 8002;
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
+const path = require("path");
+
+const PORT = process.env.PORT || 8080;
+const HOST = "0.0.0.0";
+const CLIENT_BUILD_PATH = path.join(__dirname, "../../client/build");
 
 app.use(cors());
+app.use(express.static(CLIENT_BUILD_PATH));
 
 const clients = {};
 const messages = {};
@@ -21,7 +28,6 @@ io.on("connection", function (client) {
   client.emit("receive-uid", client.id);
 
   client.on("join-room", (e) => {
-    console.log("^^^^join", e);
     client.leaveAll();
     client.join(e.room);
     messages[e.room] &&
@@ -67,6 +73,13 @@ app.get("/users", (req, res) => {
   res.send({ data: clients });
 });
 
-server.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
-);
+app.get("*", function (req, res) {
+  res.sendFile(path.join(CLIENT_BUILD_PATH, "index.html"));
+});
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
+
+// server.listen(PORT, () =>
+//   console.log(`Example app listening on port ${port}!`)
+// );
