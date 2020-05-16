@@ -91,6 +91,7 @@ Release and verify app
 
 ## Roadmap
 
+- [ ] Use volume for chat history rentention
 - [ ] Display number of users in chat
 - [ ] Set user name and bio
 - [ ] Set room and hashed survey state in url

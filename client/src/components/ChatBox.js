@@ -44,7 +44,7 @@ export default class ChatBox extends Component {
   );
 
   render() {
-    return this.props.roomName ? (
+    return this.props.selectedRoom ? (
       <div>
         <div>
           <NavbarComponent
@@ -59,12 +59,11 @@ export default class ChatBox extends Component {
                   </p>
                 </Col>
                 <Avatar
-                  src={require(`../static/images/avatar/1.jpg`)}
+                  src={require(`../static/images/chat.png`)}
                   alt={"logo"}
                   size="large"
-                  type="circle flexible"
                 />
-                <p className="navBarText">{this.props.roomName}</p>
+                {/* <p className="navBarText">{`Chat Room`}</p> */}
               </div>
             }
           />

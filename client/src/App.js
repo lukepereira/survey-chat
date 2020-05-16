@@ -21,7 +21,10 @@ import "react-notifications/lib/notifications.css";
 import axios from "axios";
 import hash from "object-hash";
 
-const SOCKET_URI = "http://localhost:8080";
+const SOCKET_URI =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+    ? "http://localhost:8080"
+    : "https://surveychat.herokuapp.com";
 
 class App extends Component {
   socket = null;
@@ -109,7 +112,7 @@ class App extends Component {
   onMessageRecieved(message) {
     let userChatData = this.state.userChatData;
     let messageData = message.message;
-    if (message.from === this.state.user.id) {
+    if (messageData.from === this.state.user.id) {
       messageData.position = "right";
     } else {
       messageData.position = "left";
@@ -146,8 +149,8 @@ class App extends Component {
         date: +new Date(),
         className: "message",
         title: this.state.user.name,
+        from: this.state.user.id,
       },
-      from: this.state.user.id,
     };
     this.socket.emit("message", message);
   }
@@ -215,7 +218,8 @@ class App extends Component {
             </Col>
             <Col {...chatBoxProps} md={8}>
               <ChatBox
-                roomName={this.state.selectedRoom}
+                selectedRoom={this.state.selectedRoom}
+                roomName={this.getRoomName()}
                 signedInUser={this.state.user}
                 onSendClicked={this.createMessage.bind(this)}
                 onBackPressed={this.toggleViews.bind(this)}
