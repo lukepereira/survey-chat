@@ -77,9 +77,6 @@ app.get("*", function (req, res) {
   res.sendFile(path.join(CLIENT_BUILD_PATH, "index.html"));
 });
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
-
-// server.listen(PORT, () =>
-//   console.log(`Example app listening on port ${port}!`)
-// );
+server.listen(PORT, () =>
+  console.log(`Example app listening on port ${PORT}!`)
+);
